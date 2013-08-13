@@ -17,6 +17,7 @@ angular.module('localization', [])
             language:$window.navigator.userLanguage || $window.navigator.language,
             // array to hold the localized resource string entries
             dictionary:[],
+	    baseUrl:"",
             // flag to indicate if the service hs loaded the resource file
             resourceFileLoaded:false,
 
@@ -36,14 +37,20 @@ angular.module('localization', [])
                 localize.initLocalizedResources();
             },
 
+	    setBaseUrl: function(value) {
+                localize.baseUrl = value;
+                localize.initLocalizedResources();
+            },
+
+
             // loads the language resource file from the server
             initLocalizedResources:function () {
                 // build the url to retrieve the localized resource file
-                var url = '/i18n/resources-locale_' + localize.language + '.js';
+                var url = localize.baseUrl + '/i18n/resources-locale_' + localize.language + '.js';
                 // request the resource file
                 $http({ method:"GET", url:url, cache:false }).success(localize.successCallback).error(function () {
                     // the request failed set the url to the default resource file
-                    var url = '/i18n/resources-locale_default.js';
+                    var url = localize.baseUrl + '/i18n/resources-locale_default.js';
                     // request the default resource file
                     $http({ method:"GET", url:url, cache:false }).success(localize.successCallback);
                 });
@@ -64,7 +71,14 @@ angular.module('localization', [])
                     )[0];
 
                     // set the result
-                    result = entry.value;
+		    if (entry == null)
+                    {
+                    	console.log("localize - missing resource: " + value);
+			result = value;
+                    }
+                    else {
+                    	result = entry.value;
+		    }
                 }
                 // return the value to the call
                 return result;
@@ -72,7 +86,7 @@ angular.module('localization', [])
         };
 
         // force the load of the resource file
-        localize.initLocalizedResources();
+        //localize.initLocalizedResources();
 
         // return the local instance when called
         return localize;
