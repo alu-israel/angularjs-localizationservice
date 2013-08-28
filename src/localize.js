@@ -46,11 +46,11 @@ angular.module('localization', [])
             // loads the language resource file from the server
             initLocalizedResources:function () {
                 // build the url to retrieve the localized resource file
-                var url = localize.baseUrl + '/i18n/resources-locale_' + localize.language + '.js';
+                var url = localize.baseUrl + 'i18n/resources-locale_' + localize.language + '.js';
                 // request the resource file
                 $http({ method:"GET", url:url, cache:false }).success(localize.successCallback).error(function () {
                     // the request failed set the url to the default resource file
-                    var url = localize.baseUrl + '/i18n/resources-locale_default.js';
+                    var url = localize.baseUrl + 'i18n/resources-locale_default.js';
                     // request the default resource file
                     $http({ method:"GET", url:url, cache:false }).success(localize.successCallback);
                 });
