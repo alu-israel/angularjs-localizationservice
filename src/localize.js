@@ -77,7 +77,6 @@ angular.module('localization', [])
         if (localize.dictionary.hasOwnProperty(key)) {
           return localize.dictionary[key];
         } else {
-          console.log("localize - missing resource: " + key);
           return key;
         }
       }
