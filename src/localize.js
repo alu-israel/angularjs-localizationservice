@@ -27,7 +27,6 @@ angular.module('localization', [])
         localize.dictionary = {};
         data.forEach(
           function (item) {
-            debugger;
             localize.dictionary[item.key] = item.value;
           }
         )
